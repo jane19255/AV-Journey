@@ -19,7 +19,7 @@ export type RouteChoice = 'A' | 'B'
 export type OnboardBus = 'first' | 'transfer' | null
 
 export const onboardStops: Stop[] = [
-  { name: 'Maple Gate', note: 'Boarded', left: 15, top: 84 },
+  { name: 'Maple Gate', note: 'Boarded', left: 10, top: 82 },
   { name: 'North Park', note: '2 min', left: 31, top: 52 },
   { name: 'Lake Junction', note: '4 min', left: 58, top: 58 },
   { name: 'Pine Street', note: 'Change to AV12', left: 84, top: 19 },

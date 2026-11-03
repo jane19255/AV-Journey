@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 // Defined once at module level so the JSX isn't rebuilt on every render
 const paths: Record<string, ReactNode> = {
   back: <path d="m15 18-6-6 6-6" />,
+  chevron: <path d="m9 18 6-6-6-6" />,
   bus: <><rect x="5" y="3" width="14" height="15" rx="3" /><path d="M5 11h14M8 7h.01M16 7h.01M8 18v3M16 18v3M8 15h.01M16 15h.01" /></>,
   clock: <><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></>,
   help: <><circle cx="12" cy="12" r="9" /><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.8.4-1 1-1 1.7M12 17h.01" /></>,

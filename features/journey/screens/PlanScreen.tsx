@@ -45,7 +45,7 @@ export default function PlanScreen() {
   }
 
   return <>
-    <Header kicker="Journey planner" title="Plan your journey" subtitle="Choose your start and destination." />
+    <Header kicker="Journey planner" title="Plan your journey" subtitle="Input your start and destination." />
     <form className={`location-fields${errors.from ? ' from-error' : ''}`} noValidate onSubmit={(event) => { event.preventDefault(); findRoutes() }}>
       <label>
         <span>From</span>
@@ -54,7 +54,7 @@ export default function PlanScreen() {
           <input
             ref={fromRef}
             value={startLocation}
-            placeholder="Starting location"
+            placeholder="Maple Gate"
             onChange={(event) => { setStartLocation(event.target.value); if (errors.from) setErrors((e) => ({ ...e, from: undefined })) }}
             aria-label="Starting location"
             aria-invalid={!!errors.from}
@@ -71,7 +71,7 @@ export default function PlanScreen() {
           <input
             ref={toRef}
             value={destination}
-            placeholder="Destination"
+            placeholder="Campus West"
             onChange={(event) => { setDestination(event.target.value); if (errors.to) setErrors((e) => ({ ...e, to: undefined })) }}
             aria-label="Destination"
             aria-invalid={!!errors.to}

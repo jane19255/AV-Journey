@@ -22,11 +22,12 @@ function withName(stops: Stop[], index: number, name: string): Stop[] {
 export function useJourneyState() {
   // navigation
   const [screen, setScreen] = useState<Screen>('plan')
-  const [screenHistory, setScreenHistory] = useState<Screen[]>([])
+  // the step of the trip the user is on; Help and Settings are opened "on top" of it
+  const [tripScreen, setTripScreen] = useState<Screen>('plan')
 
   // trip
-  const [startLocation, setStartLocation] = useState('Maple Gate')
-  const [destination, setDestination] = useState('Campus West')
+  const [startLocation, setStartLocation] = useState('')
+  const [destination, setDestination] = useState('')
   const [routeChoice, setRouteChoice] = useState<RouteChoice>('A')
   const [replacementRoute, setReplacementRoute] = useState(false)
   const [onboardBus, setOnboardBus] = useState<OnboardBus>(null)
@@ -53,19 +54,31 @@ export function useJourneyState() {
   const destinationModalReady = useDelayedFlag(transfer.stopIndex === activeTransferStops.length - 1)
 
   // navigation helpers
+  // Back follows the steps of the trip, not every screen ever opened.
+  // Once you are on a bus, Back is hidden: you can't "un-board" a bus.
+  const parentOf = (s: Screen): Screen | null => {
+    switch (s) {
+      case 'routes': return 'plan'
+      case 'tracking': return 'routes'
+      case 'boarding': return 'tracking'
+      case 'recovery': return 'disruption'
+      case 'transfer': return replacementRoute ? 'recovery' : null
+      case 'transferBoarding': return 'transfer'
+      default: return null
+    }
+  }
+  const isTab = (s: Screen) => s === 'help' || s === 'settings'
+
   const go = (next: Screen) => {
-    if (next !== screen) setScreenHistory((history) => [...history, screen])
+    if (!isTab(next)) setTripScreen(next)
     setScreen(next)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
   const back = () => {
-    setScreenHistory((history) => {
-      if (history.length === 0) return history
-      setScreen(history[history.length - 1])
-      return history.slice(0, -1)
-    })
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    if (isTab(screen)) return setScreen(tripScreen) // close Help / Settings
+    const parent = parentOf(screen)
+    if (parent) go(parent)
   }
+  const backTarget = isTab(screen) ? tripScreen : parentOf(screen)
 
   // flow actions (each one used to be an inline handler inside page.tsx)
   const selectRoute = (choice: RouteChoice) => {
@@ -124,17 +137,19 @@ export function useJourneyState() {
 
   // route B: bus breaks down after the second stop
   useEffect(() => {
-    if (routeChoice === 'B' && screen === 'journey' && first.stopIndex >= 1) {
+    if (routeChoice === 'B' && tripScreen === 'journey' && first.stopIndex >= 1) {
       first.setMoving(false)
-      setScreenHistory((history) => [...history, 'journey'])
-      setScreen('disruption')
+      setTripScreen('disruption')
+      if (screen === 'journey') setScreen('disruption')
     }
-  }, [first.stopIndex, first.setMoving, routeChoice, screen])
+  }, [first.stopIndex, first.setMoving, routeChoice, screen, tripScreen])
 
   return {
     // navigation
     screen,
-    canGoBack: screenHistory.length > 0,
+    tripScreen,
+    backTarget,
+    canGoBack: backTarget !== null,
     go,
     back,
     // trip

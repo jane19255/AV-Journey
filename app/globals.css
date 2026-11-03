@@ -720,6 +720,96 @@
   border-color: #0a8867;
 }
 
+/* ---- make the route cards look tappable ---- */
+.route-hint {
+  margin: 14px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #08775c;
+  font-size: .9rem;
+  font-weight: 700;
+}
+
+.route-card {
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  animation: route-card-in .45s ease backwards;
+}
+
+.route-card + .route-card {
+  animation-delay: .1s;
+}
+
+.route-card:hover {
+  box-shadow: 0 12px 28px rgba(8, 119, 92, .16);
+}
+
+.route-card:active {
+  transform: scale(.98);
+}
+
+.route-card:focus-visible {
+  outline: 3px solid #f0b64d;
+  outline-offset: 3px;
+}
+
+.route-cta {
+  margin-top: 14px;
+  padding-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #e3eae6;
+  color: #08775c;
+  font-weight: 800;
+}
+
+.route-cta svg {
+  transition: transform .18s ease;
+}
+
+.route-card:hover .route-cta svg,
+.route-card:focus-visible .route-cta svg {
+  transform: translateX(4px);
+}
+
+/* the suggested route gets a filled button and a gentle nudge to draw the eye */
+.route-card.recommended .route-cta {
+  margin-left: -8px;
+  margin-right: -8px;
+  padding: 11px 14px;
+  border-top: 0;
+  border-radius: 12px;
+  background: #08775c;
+  color: white;
+}
+
+.route-card.recommended .route-cta svg {
+  animation: cta-nudge 1.2s ease-in-out .6s 3;
+}
+
+.route-card.recommended:hover .route-cta {
+  background: #056149;
+}
+
+@keyframes route-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@keyframes cta-nudge {
+  0%, 100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(6px);
+  }
+}
+
 .tag {
   display: inline-block;
   margin-bottom: 14px;
@@ -727,7 +817,7 @@
   border-radius: 7px;
   background: #dff5ed;
   color: #08775c;
-  font-size: .76rem;
+  font-size: 10px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: .04em;
@@ -740,20 +830,23 @@
 }
 
 .route-top strong {
-  font-size: 1.65rem;
+  font-size: 22px;
   letter-spacing: -.04em;
 }
 
 .route-top span,
 .route-card p {
   color: #68756f;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .bus-line {
-  margin: 18px 0 12px;
+  margin: 12px 0 12px;
   display: flex;
   align-items: center;
   gap: 0;
+  font-size: 15px;
 }
 
 .bus-line b {
@@ -932,8 +1025,7 @@
 .onboard-map .route-done {
   stroke: #08775c;
   stroke-width: 9;
-  stroke-dasharray: 100;
-  transition: stroke-dashoffset 1.3s ease;
+  stroke-linejoin: round;
 }
 
 .route-stop {
@@ -968,6 +1060,17 @@
   font-size: .68rem;
 }
 
+.route-stop.first>strong {
+  left: 0;
+  transform: none;
+}
+
+.route-stop.last>strong {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
 .route-stop.reached>span,
 .route-stop.current>span {
   background: #08775c;
@@ -990,7 +1093,6 @@
   background: #17231f;
   color: white;
   box-shadow: 0 6px 15px #263a3255;
-  transition: left 1.3s ease, top 1.3s ease;
 }
 
 .moving-bus::after {
@@ -1009,7 +1111,7 @@
 .live-badge {
   position: absolute;
   z-index: 4;
-  top: 12px;
+  bottom: 12px;
   right: 12px;
   padding: 7px 10px;
   display: flex;
@@ -1294,7 +1396,7 @@
 }
 
 .status-grid {
-  margin: 26px 0 16px;
+  margin: 16px 0 16px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
@@ -1946,6 +2048,20 @@
   color: #a9b8b1;
 }
 
+.dark .route-hint {
+  color: #72d6b6;
+}
+
+.dark .route-cta {
+  border-color: #39463f;
+  color: #72d6b6;
+}
+
+.dark .route-card.recommended .route-cta {
+  background: #0a8867;
+  color: white;
+}
+
 @media (max-width: 760px) {
   .app {
     background: #fbfcfb;
@@ -1971,10 +2087,6 @@
   .screen-content {
     padding-left: 18px;
     padding-right: 18px;
-  }
-
-  .status-grid {
-    grid-template-columns: 1fr;
   }
 
   .quick-row {
