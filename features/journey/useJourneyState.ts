@@ -7,9 +7,17 @@ import {
   type OnboardBus,
   type RouteChoice,
   type Screen,
+  type Stop,
 } from './data'
 import { useBusSimulation } from './useBusSimulation'
 import { useDelayedFlag } from './useDelayedFlag'
+
+function withName(stops: Stop[], index: number, name: string): Stop[] {
+  const target = index < 0 ? stops.length + index : index
+  const label = name.trim()
+  if (!label) return stops
+  return stops.map((stop, i) => (i === target ? { ...stop, name: label } : stop))
+}
 
 export function useJourneyState() {
   // navigation
@@ -33,9 +41,9 @@ export function useJourneyState() {
   const [journeyAlerts, setJourneyAlerts] = useState(true)
 
   // derived
-  const activeTransferStops = replacementRoute ? replacementOnboardStops : transferOnboardStops
+  const activeTransferStops = withName(replacementRoute ? replacementOnboardStops : transferOnboardStops, -1, destination)
   const activeTransferBus = replacementRoute ? 'AV36' : 'AV12'
-  const activeFirstStops = routeChoice === 'B' ? optionBStops : onboardStops
+  const activeFirstStops = withName(routeChoice === 'B' ? optionBStops : onboardStops, 0, startLocation)
   const activeFirstBus = routeChoice === 'B' ? 'AV22' : 'AV84'
 
   // bus simulations + delayed modals

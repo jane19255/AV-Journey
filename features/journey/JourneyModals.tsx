@@ -26,7 +26,7 @@ export default function JourneyModals() {
           idPrefix="destination"
           iconName="check"
           kicker="Final destination reached"
-          title="Please alight at Campus West"
+          title={`Please alight at ${j.destination}`}
           description={`${j.activeTransferBus} has reached your destination. Check your belongings before leaving.`}
           actionIcon="check"
           actionLabel="Finish journey"

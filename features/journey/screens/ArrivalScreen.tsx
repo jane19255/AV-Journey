@@ -7,13 +7,13 @@ import OnboardTracker, { LiveJourneyButton } from '../../../components/journey/O
 import { useJourney } from '../JourneyContext'
 
 export default function ArrivalScreen() {
-  const { activeTransferBus, activeTransferStops: stops, transfer, finishJourney, go } = useJourney()
+  const { destination, activeTransferBus, activeTransferStops: stops, transfer, finishJourney, go } = useJourney()
   const stopIndex = transfer.stopIndex
   const atEnd = stopIndex === stops.length - 1
   return <>
     <Header
       kicker={`Onboard ${activeTransferBus} · ${stopIndex + 1} of ${stops.length} stops`}
-      title={atEnd ? 'Campus West reached' : `Next: ${stops[stopIndex + 1]?.name}`}
+      title={atEnd ? `${destination} reached` : `Next: ${stops[stopIndex + 1]?.name}`}
       subtitle={atEnd ? 'This is your final stop. Exit on the left.' : `${stops.length - stopIndex - 1} stops until your final destination.`}
     />
     <OnboardTracker stops={stops} stopIndex={stopIndex} moving={transfer.moving} endLabel="Destination reached" listClassName="transfer-stops" />

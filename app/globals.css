@@ -33,7 +33,7 @@
 .appbar button { width: 44px; height: 44px; display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: #263730; }
 .appbar > button { align-self: center; }
 .appbar button:last-child { justify-self: end; }
-.appbar button:hover { background: #eaf0ed; }
+.appbar button:hover:not(:disabled) { background: #eaf0ed; }
 .screen-content { width: 100%; max-width: 760px; min-height: 0; margin: 0 auto; padding: 48px 42px 56px; flex: 1; overflow-y: auto; overscroll-behavior: contain; }
 .screen-header > p { margin: 0 0 10px; color: #08775c; font-size: .86rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .screen-header h1 { margin: 0; font-size: clamp(2.1rem, 4vw, 3.25rem); line-height: 1.04; letter-spacing: -.055em; font-weight: 800; }
@@ -45,6 +45,9 @@
 .location-fields label > div:focus-within { border-color: #08775c; }
 .location-fields input { width: 100%; border: 0; outline: 0; color: #17231f; font-size: 1.05rem; font-weight: 700; }
 .location-fields svg { color: #08775c; }
+.location-fields label > div.invalid { border-color: #c0392b; }
+.field-error { margin: 7px 0 0 4px; display: flex; align-items: center; gap: 6px; color: #b3261e; font-size: .86rem; font-weight: 700; }
+.location-fields.from-error .swap { top: 104px; }
 .swap { position: absolute; z-index: 2; top: 75px; right: 14px; width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid #d6dfda; border-radius: 50%; background: white; color: #08775c; }
 .quick-row { margin-bottom: 30px; display: flex; gap: 9px; }
 .quick-row button { padding: 10px 12px; display: flex; align-items: center; gap: 7px; border: 1px solid #d5dfda; border-radius: 999px; background: white; color: #405049; font-size: .9rem; font-weight: 700; }
@@ -71,10 +74,19 @@
 .bus-line { margin: 18px 0 12px; display: flex; align-items: center; gap: 0; }.bus-line b { padding: 7px 10px; border-radius: 8px; background: #08775c; color: white; }.bus-line span { height: 3px; flex: 1; background: #8fd4c0; }.bus-line.alt b { background: #405b74; }.bus-line.alt span { background: #b8c9d8; }
 
 .mini-map { height: 260px; position: relative; overflow: hidden; margin: 28px 0 20px; border: 1px solid #d3ded8; border-radius: 20px; background-color: #e6eee9; background-image: linear-gradient(25deg,transparent 44%,#fff 45%,#fff 51%,transparent 52%),linear-gradient(120deg,transparent 42%,#d1ded6 43%,#d1ded6 45%,transparent 46%); }
-.mini-map svg { position: absolute; inset: 0; width: 100%; height: 100%; }.mini-map path { fill: none; stroke: #08775c; stroke-width: 8; stroke-linecap: round; stroke-dasharray: 3 14; }
-.map-road { position: absolute; color: #6c7b74; font-size: .68rem; font-weight: 800; text-transform: uppercase; }.map-road.one { left: 9%; bottom: 22%; transform: rotate(-24deg); }.map-road.two { right: 8%; top: 22%; transform: rotate(-29deg); }
-.map-point { position: absolute; z-index: 2; width: 38px; height: 38px; display: grid; place-items: center; border: 4px solid white; border-radius: 50%; background: #17231f; color: white; box-shadow: 0 5px 12px #61706955; }.map-point.start { left: 7%; bottom: 9%; }.map-point.finish { right: 5%; top: 5%; background: #08775c; }
-.map-time { position: absolute; z-index: 3; left: 48%; top: 44%; padding: 7px 10px; border-radius: 8px; background: white; color: #08775c; box-shadow: 0 4px 12px #52615933; font-size: .82rem; font-weight: 800; }
+.mini-map > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.mini-map > svg path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.mini-map > svg .bus-path { stroke: #08775c; stroke-width: 7; stroke-dasharray: 2 12; }
+.mini-map > svg .walk-path { stroke: #c27a12; stroke-width: 5; stroke-dasharray: 1 9; }
+.map-road { position: absolute; color: #6c7b74; font-size: .68rem; font-weight: 800; text-transform: uppercase; }
+.onboard-map .map-road.one { left: 9%; bottom: 22%; transform: rotate(-24deg); }.onboard-map .map-road.two { right: 8%; top: 22%; transform: rotate(-29deg); }
+.map-marker { position: absolute; z-index: 2; display: grid; justify-items: center; gap: 4px; transform: translate(-50%, -19px); }
+.map-marker small { max-width: 110px; padding: 2px 7px; overflow: hidden; border-radius: 6px; background: rgba(255,255,255,.92); color: #17231f; font-size: .72rem; font-weight: 800; white-space: nowrap; text-overflow: ellipsis; }
+.map-point { width: 38px; height: 38px; display: grid; place-items: center; border: 4px solid white; border-radius: 50%; background: #17231f; color: white; box-shadow: 0 5px 12px #61706955; }
+.map-marker.bus .map-point { background: #08775c; animation: marker-pulse 1.8s ease-out infinite; }
+.map-marker.stopped .map-point { background: #c0392b; }
+@keyframes marker-pulse { 0% { box-shadow: 0 0 0 0 rgba(8,119,92,.45); } 100% { box-shadow: 0 0 0 14px rgba(8,119,92,0); } }
+.map-time { position: absolute; z-index: 3; transform: translate(-50%, -50%); white-space: nowrap; padding: 7px 10px; border-radius: 8px; background: white; color: #08775c; box-shadow: 0 4px 12px #52615933; font-size: .82rem; font-weight: 800; }
 .onboard-map { height: 310px; position: relative; overflow: hidden; margin: 24px 0 14px; border: 1px solid #cbd9d2; border-radius: 20px; background-color: #e7efea; background-image: linear-gradient(25deg,transparent 44%,#fff 45%,#fff 51%,transparent 52%),linear-gradient(120deg,transparent 42%,#d1ded6 43%,#d1ded6 45%,transparent 46%); }
 .onboard-map > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .onboard-map .route-base,.onboard-map .route-done { fill: none; stroke-linecap: round; }
@@ -161,6 +173,12 @@
 .dark .setting-row + .setting-row { border-color: #34413b; }
 .dark .compact-stops li > span { background: #101714; }
 .dark .arrival-modal { background: #1b2521; color: #edf4f1; }
+.dark .appbar button:hover:not(:disabled) { background: #26332d; color: #ffffff; }
+.dark .appbar button:disabled { background: transparent; }
+.dark .location-fields label > div.invalid { border-color: #ff8a7a; }
+.dark .field-error { color: #ff9d90; }
+.dark .map-marker small { background: #1b2521; color: #dce8e2; }
+.dark .map-point { border-color: #1b2521; }
 
 @media (max-width: 760px) {
   .app { background: #fbfcfb; }.screen-content { padding: 30px 22px 30px; }.bottom-nav { display: grid; position: sticky; bottom: 0; z-index: 5; }.screen-header h1 { font-size: clamp(2.15rem, 10vw, 3rem); }

@@ -1,5 +1,5 @@
 import Icon from '../ui/Icon'
-import type { Screen } from '../../_features/journey/data'
+import type { Screen } from '../../features/journey/data'
 
 export default function BottomNav({ screen, go }: { screen: Screen; go: (next: Screen) => void }) {
   return (

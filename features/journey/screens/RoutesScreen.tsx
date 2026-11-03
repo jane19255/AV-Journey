@@ -4,9 +4,9 @@ import Header from '../../../components/ui/Header'
 import { useJourney } from '../JourneyContext'
 
 export default function RoutesScreen() {
-  const { selectRoute } = useJourney()
+  const { startLocation, destination, selectRoute } = useJourney()
   return <>
-    <Header kicker="2 routes found" title="Choose your route" subtitle="Both routes are step-free." />
+    <Header kicker="2 routes found" title="Choose your route" subtitle={`${startLocation} to ${destination}. Both routes are step-free.`} />
     <button className="route-card recommended" onClick={() => selectRoute('A')}>
       <span className="tag">Suggested · fastest</span><div className="route-top"><strong>28 min</strong><span>Arrive 9:10</span></div>
       <div className="bus-line"><b>AV84</b><span /><b>AV12</b></div><p>1 same-stop transfer · 2 min wait</p>

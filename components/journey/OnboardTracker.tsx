@@ -1,7 +1,7 @@
 import Icon from '../ui/Icon'
 import Button from '../ui/Button'
 import OnboardMap from '../map/OnboardMap'
-import type { Stop } from '../../_features/journey/data'
+import type { Stop } from '../../features/journey/data'
 
 /** Map + current-stop card + stop list. Shared by the "journey" and "arrival" screens. */
 export default function OnboardTracker({
@@ -33,7 +33,7 @@ export default function OnboardTracker({
       </div>
       <ol className={`compact-stops${listClassName ? ` ${listClassName}` : ''}`} aria-label="Bus stop progress">
         {stops.map((stop, index) => (
-          <li key={stop.name} className={index < stopIndex ? 'reached' : index === stopIndex ? 'current' : ''}>
+          <li key={`${index}-${stop.name}`} className={index < stopIndex ? 'reached' : index === stopIndex ? 'current' : ''}>
             <span>{index < stopIndex ? '✓' : index + 1}</span>
             <strong>{stop.name}</strong>
             <small>{index < stopIndex ? 'Passed' : index === stopIndex ? 'You are here' : stop.note}</small>

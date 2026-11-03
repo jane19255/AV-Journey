@@ -1,5 +1,5 @@
 import Icon from '../ui/Icon'
-import type { Stop } from '../../_features/journey/data'
+import type { Stop } from '../../features/journey/data'
 
 export default function OnboardMap({
   stopIndex,
