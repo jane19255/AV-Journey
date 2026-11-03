@@ -1,7 +1,7 @@
 'use client'
 
 import Header from '../../../components/ui/Header'
-import Button from '../../../components/ui/Button'
+import Button from '../../../components/ui/button'
 import MapPreview from '../../../components/map/MapPreview'
 import { useJourney } from '../JourneyContext'
 
@@ -9,7 +9,7 @@ export default function TransferScreen() {
   const { destination, activeTransferStops, replacementRoute, activeTransferBus, go } = useJourney()
   return <>
     <Header
-      kicker={replacementRoute ? 'Replacement service · North Park' : 'Transfer · Pine Street'}
+      kicker={`${replacementRoute ? 'Replacement service' : 'Transfer'} · ${activeTransferStops[0].name}`}
       title={`${activeTransferBus} arrives in 2 min`}
       subtitle={replacementRoute ? 'Your replacement AV uses a new route to the same destination.' : `Stay at the stop and wait at Bay 1 towards ${destination}.`}
     />
@@ -20,8 +20,8 @@ export default function TransferScreen() {
       timeLabel={`${activeTransferBus} · 2 min`}
     />
 
-    {replacementRoute && <div className="replacement-stops"><span>New stops</span>`<strong>{activeTransferStops.map((stop) => stop.name).join(' → ')}</strong>`</div>}
-    <div className="bus-ticket compact"><span>{replacementRoute ? 'Replacement bus' : 'Next bus'}</span><strong>{activeTransferBus}</strong><p>Bay 1 · low-floor boarding</p></div>
+    {replacementRoute && <div className="replacement-stops"><span>New stops</span><strong>{activeTransferStops.map((stop) => stop.name).join(' → ')}</strong></div>}
+    <div className="bus-ticket compact"><span>{replacementRoute ? 'Replacement bus' : 'Next bus'}</span><strong>{activeTransferBus}</strong><p>{replacementRoute ? 'Bay 3' : 'Bay 1'} · low-floor boarding</p></div>
     <Button onClick={() => go('transferBoarding')}>I see {activeTransferBus}</Button>
     <Button secondary onClick={() => go('help')}>Get help</Button>
   </>

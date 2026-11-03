@@ -1,13 +1,12 @@
-import type { ReactNode } from 'react'
 import Icon from '../ui/Icon'
-import Button from '../ui/Button'
+import Button from '../ui/button'
 
 export default function AlertModal({
   idPrefix,
   iconName,
   kicker,
   title,
-  description,
+  place,
   actionIcon,
   actionLabel,
   onAction,
@@ -17,7 +16,7 @@ export default function AlertModal({
   iconName: string
   kicker: string
   title: string
-  description: ReactNode
+  place: string
   actionIcon: string
   actionLabel: string
   onAction: () => void
@@ -25,11 +24,13 @@ export default function AlertModal({
 }) {
   return (
     <div className="modal-backdrop">
-      <section className="arrival-modal" role="alertdialog" aria-modal="true" aria-labelledby={`${idPrefix}-title`} aria-describedby={`${idPrefix}-description`}>
+      <section className="arrival-modal" role="alertdialog" aria-modal="true" aria-labelledby={`${idPrefix}-title`}>
         <div className="modal-icon"><Icon name={iconName} size={30} /></div>
         <p>{kicker}</p>
-        <h2 id={`${idPrefix}-title`}>{title}</h2>
-        <span id={`${idPrefix}-description`}>{description}</span>
+        <h2 id={`${idPrefix}-title`}>
+          <span className="modal-lead">{title}</span>{' '}
+          <span className="modal-place">{place}</span>
+        </h2>
         <Button onClick={onAction}><Icon name={actionIcon} size={20} /> {actionLabel}</Button>
         <button className="text-button" onClick={onDismiss}>Dismiss</button>
       </section>

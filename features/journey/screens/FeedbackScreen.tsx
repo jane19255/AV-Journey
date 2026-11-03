@@ -1,7 +1,7 @@
 'use client'
 
 import Header from '../../../components/ui/Header'
-import Button from '../../../components/ui/Button'
+import Button from '../../../components/ui/button'
 import { useJourney } from '../JourneyContext'
 
 export default function FeedbackScreen() {

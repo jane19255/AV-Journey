@@ -1,5 +1,5 @@
 import Icon from '../ui/Icon'
-import Button from '../ui/Button'
+import Button from '../ui/button'
 import OnboardMap from '../map/OnboardMap'
 import type { Stop } from '../../features/journey/data'
 

@@ -2,7 +2,7 @@
 
 import Header from '../../../components/ui/Header'
 import Icon from '../../../components/ui/Icon'
-import Button from '../../../components/ui/Button'
+import Button from '../../../components/ui/button'
 import MapPreview from '../../../components/map/MapPreview'
 import { useJourney } from '../JourneyContext'
 

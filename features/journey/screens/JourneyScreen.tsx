@@ -2,7 +2,7 @@
 
 import Header from '../../../components/ui/Header'
 import Icon from '../../../components/ui/Icon'
-import Button from '../../../components/ui/Button'
+import Button from '../../../components/ui/button'
 import OnboardTracker, { LiveJourneyButton } from '../../../components/journey/OnboardTracker'
 import { useJourney } from '../JourneyContext'
 

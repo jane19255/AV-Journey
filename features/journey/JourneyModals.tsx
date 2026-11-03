@@ -13,8 +13,8 @@ export default function JourneyModals() {
           idPrefix="arrival"
           iconName="location"
           kicker="Transfer stop reached"
-          title="Please alight at Pine Street"
-          description="Leave AV84 here. Your transfer bus AV12 arrives at this stop in 2 minutes."
+          title="Please alight at"
+          place={j.activeFirstStops[j.activeFirstStops.length - 1].name}
           actionIcon="bus"
           actionLabel="Track AV12"
           onAction={() => { j.setTransferAlertDismissed(true); j.trackTransferBus() }}
@@ -26,8 +26,8 @@ export default function JourneyModals() {
           idPrefix="destination"
           iconName="check"
           kicker="Final destination reached"
-          title={`Please alight at ${j.destination}`}
-          description={`${j.activeTransferBus} has reached your destination. Check your belongings before leaving.`}
+          title="Please alight at"
+          place={j.destination}
           actionIcon="check"
           actionLabel="Finish journey"
           onAction={() => { j.setDestinationAlertDismissed(true); j.finishJourney() }}
