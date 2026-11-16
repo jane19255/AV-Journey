@@ -52,14 +52,14 @@ const layouts: Record<MapVariant, Layout> = {
   },
   // walking from the broken-down bus to the replacement stop, along streets
   walking: {
-    path: 'M14 80 L36 80 L36 50 L64 50 L64 24 L84 24',
+    path: 'M14 76 L36 76 L36 60 L64 60 L64 46 L84 46',
     walking: true,
-    from: { x: 14, y: 80, icon: 'warning', tone: 'stopped' },
-    to: { x: 84, y: 24, icon: 'location', tone: 'you' },
+    from: { x: 14, y: 76, icon: 'warning', tone: 'stopped' },
+    to: { x: 84, y: 46, icon: 'location', tone: 'you' },
     chip: { x: 50, y: 60 },
     roads: [
-      { name: 'Garden Link', style: { left: '4%', bottom: '4%' } },
-      { name: 'Sheltered path', style: { left: '42%', top: '62%' } },
+      { name: 'Garden Link', style: { left: '30%', bottom: '5%' } },
+      { name: 'Sheltered path', style: { left: '62%', top: '76%' } },
     ],
   },
 }
@@ -69,11 +69,14 @@ export default function MapPreview({
   fromLabel,
   toLabel,
   timeLabel,
+  caption,
 }: {
   variant: MapVariant
   fromLabel: string
   toLabel: string
   timeLabel: string
+  /** optional banner across the top of the map, e.g. the replacement route */
+  caption?: { label: string; text: string }
 }) {
   const layout = layouts[variant]
   const markers: Marker[] = [
@@ -85,8 +88,9 @@ export default function MapPreview({
     <div
       className={`mini-map map-${variant}`}
       role="img"
-      aria-label={layout.walking ? `Walking route from ${fromLabel} to ${toLabel}, ${timeLabel}` : `Live map: ${toLabel} heading to ${fromLabel}, ${timeLabel}`}
+      aria-label={(layout.walking ? `Walking route from ${fromLabel} to ${toLabel}, ${timeLabel}` : `Live map: ${toLabel} heading to ${fromLabel}, ${timeLabel}`) + (caption ? `. ${caption.label}: ${caption.text}` : '')}
     >
+      {caption && <div className="map-caption"><span>{caption.label}</span><strong>{caption.text}</strong></div>}
       {layout.roads.map((road) => <span key={road.name} className="map-road" style={road.style}>{road.name}</span>)}
       <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
         <path className={layout.walking ? 'walk-path' : 'bus-path'} d={layout.path} vectorEffect="non-scaling-stroke" />
