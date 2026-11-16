@@ -126,6 +126,8 @@ export function useJourneyState() {
     setTransferAlertDismissed(false)
     setDestinationAlertDismissed(false)
     setReplacementRoute(false)
+    setStartLocation('')
+    setDestination('')
     go('plan')
   }
 

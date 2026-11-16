@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Header from '../../../components/ui/Header'
 import Icon from '../../../components/ui/Icon'
 import Button from '../../../components/ui/button'
@@ -13,6 +13,23 @@ export default function PlanScreen() {
   const [errors, setErrors] = useState<FieldErrors>({})
   const fromRef = useRef<HTMLInputElement>(null)
   const toRef = useRef<HTMLInputElement>(null)
+  const [locating, setLocating] = useState(false)
+  const locateTimer = useRef<number | undefined>(undefined)
+
+  // stop the fake "locating" timer if the user leaves the screen
+  useEffect(() => () => window.clearTimeout(locateTimer.current), [])
+
+  // Prototype: there is no real GPS lookup, so "Current location" always fills in SIT Punggol.
+  const fillCurrentLocation = () => {
+    if (locating) return
+    setLocating(true)
+    locateTimer.current = window.setTimeout(() => {
+      setStartLocation('SIT Punggol')
+      setErrors((e) => ({ ...e, from: undefined }))
+      setLocating(false)
+      if (!destination.trim()) toRef.current?.focus() // next thing to fill in
+    }, 700)
+  }
 
   const findRoutes = () => {
     const from = startLocation.trim()
@@ -84,7 +101,10 @@ export default function PlanScreen() {
       <button type="submit" hidden aria-hidden="true" tabIndex={-1} />
     </form>
 
-    <div className="quick-row"><button><Icon name="location" size={19} /> Current location</button><button><Icon name="home" size={19} /> Saved places</button></div>
+    <div className="quick-row">
+      <button type="button" onClick={fillCurrentLocation} aria-busy={locating} aria-live="polite"><Icon name="location" size={19} /> {locating ? 'Locating…' : 'Current location'}</button>
+      {/* <button><Icon name="home" size={19} /> Saved places</button> */}
+    </div>
     <Button onClick={findRoutes}>Find routes</Button>
     <section className="home-updates" aria-label="Journey updates">
       <div className="service-ok"><span><Icon name="check" size={18} /></span><div><strong>AV network is running normally</strong><small>All campus routes available</small></div></div>

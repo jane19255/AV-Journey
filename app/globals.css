@@ -2099,6 +2099,11 @@
   color: #e6b866;
 }
 
+.dark .status-grid strong,
+.dark .callout strong {
+  color: #1b2521;
+}
+
 @media (max-height: 700px) {
   .mini-map {
     height: 200px;
